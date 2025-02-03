@@ -1,0 +1,34 @@
+Docker Postgres avec Adminer: 
+    docker pull adminer -> interface web pour accéder aux données (opt.)
+    docker network create app-network -> créer un réseau pour autoiriser la communication entre les process
+    docker run -d --name DevOpsTP1 --network app-network KilianVLT/postgres -> container postgres
+    docker run --network app-network -p 8080:8080 --name adminer -d adminer -> run sur le réseau
+
+1-1 Why should we run the container with a flag -e to give the environment variables?
+    Pour empêcher de mettre en clair dans un fichier des informations comme des mots de passe (exemple password de postgres)
+
+1-2 Why do we need a volume to be attached to our postgres container?
+    Pour conserver les données existantes en cas de changement dans le container Postgres
+
+1-3 Document your database container essentials: commands and Dockerfile.
+    docker pull adminer -> interface web pour accéder aux données (opt.)
+    docker network create app-network -> créer un réseau pour autoiriser la communication entre les process
+    docker run -d --name DevOpsTP1 --network app-network KilianVLT/postgres -> container postgres
+    docker run --network app-network -p 8080:8080 -v D:/Documents/DevOps-S8/TP1:/var/lib/postgresql/data --name adminer -d adminer -> run sur le réseau
+
+1-4 Why do we need a multistage build? And explain each step of this dockerfile.
+    Parce qu'on a deux processus à build pour notre projet, un sur Maven et l'autre avec AmazonCorretto
+    
+    Dans le 1er on construit notre image Maven, On défini une variable d'env pour la source du projet. Avec Workdir, le Dockerfile détecte la zone de départ du projet
+    On copie pom.xml à la racine de l'image
+    On copie tout le répertoire src dans le dossier /src de l'image 
+    On run les packages Maven
+
+    Dans le 2ème on utilise une image AmazonCorretto (it’s designed to provide everything you need to create and run Java applications without limits)
+    On redéclare la même variable d'env que dans le premier process
+    On se fixe dessus avec Workdir
+
+    COPY --from=myapp-build $MYAPP_HOME/target/*.jar $MYAPP_HOME/myapp.jar
+    On copie depuis le premier process tous les contenus en .jar sur le chemin $MYAPP_HOME/target/*.jar vers $MYAPP_HOME/myapp.jar
+
+    ENTRYPOINT ["java", "-jar", "myapp.jar"] -> démarre l'appli 
