@@ -1,0 +1,34 @@
+services:
+    simple-api:
+        # Repertoire où se situe le DockerFile
+        build: ./simple-api-student-main
+        # Network du service
+        networks: 
+            - back-network
+            - front-network
+        env_file: "/simple-api-student-main/.env"
+        # Dépendant du container  
+        depends_on: 
+            - db
+
+    db:
+        build: ./Database
+        env_file: "/Database/.env"
+        networks:
+            - back-network
+
+    front:
+        build: ./HttpServer
+        # Exposé sur le port
+        ports: 
+            - "80:80"
+        networks: 
+            - front-network
+        depends_on: 
+            - simple-api
+
+# Network existants
+networks:
+    front-network:
+    back-network:
+    

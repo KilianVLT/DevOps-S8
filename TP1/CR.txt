@@ -33,7 +33,22 @@ Docker Postgres avec Adminer:
 
     ENTRYPOINT ["java", "-jar", "myapp.jar"] -> démarre l'appli 
 
-
     Note: Dans le multistaging, seul ce qu'il y a après le dernier FROM est conservé pour la création de l'image final
     Dans le DockerFile de l'API, les lignes 9 à 13 gardent seulement les fichiers .jar (jdk et jre) qui sont des fichiers compilés et beaucoup plus léger
     et qui ne garde que l'essentiel pour le projet.  
+
+1-5 Why do we need a reverse proxy?
+
+    Cache les adresses IP côté client, permet de faire du load-balancing, 
+    Protège un serveur Web des attaques provenant de l'extérieur
+    Permet de créer un point unique pour les accès aux ressources Web 
+
+1-6 Why is docker-compose so important?
+
+    simplifie enormément un déploiement lorsqu'il y a plusieurs containers
+    réduit les erreurs humaines
+    regroupe toutes les dépendances
+
+1-7  Document docker-compose most important commands.
+    docker compose up -d pour 
+
