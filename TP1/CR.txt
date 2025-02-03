@@ -32,3 +32,8 @@ Docker Postgres avec Adminer:
     On copie depuis le premier process tous les contenus en .jar sur le chemin $MYAPP_HOME/target/*.jar vers $MYAPP_HOME/myapp.jar
 
     ENTRYPOINT ["java", "-jar", "myapp.jar"] -> démarre l'appli 
+
+
+    Note: Dans le multistaging, seul ce qu'il y a après le dernier FROM est conservé pour la création de l'image final
+    Dans le DockerFile de l'API, les lignes 9 à 13 gardent seulement les fichiers .jar (jdk et jre) qui sont des fichiers compilés et beaucoup plus léger
+    et qui ne garde que l'essentiel pour le projet.  
