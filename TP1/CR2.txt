@@ -11,3 +11,5 @@ Pour la partie Bonus:
     Le deuxième se déclenche a la fin du premier workflow et ne s'exécute pas si le push vient initialement de la branche staging (branch_ignore: ...)
     dans le job du fichier second.yml j'ai également ajouté la condition "if: ${{ github.ref == 'refs/heads/main' }}" pour être sûr qu'il s'agit de la branche main
     Résultat: on peut observer que le premier workflow se déroule dans un premier temps et après le deuxième
+
+    ff
