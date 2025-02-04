@@ -1,3 +1,8 @@
 2-1 What are testcontainers?
     C'est une bibliothèque OPS qui permet d'executer des tests facilement avec des bdd simplifiées et des environnements dédiés.
     java libraries that allow you to run a bunch of docker containers while testing
+
+2-3
+    Rapidité de déploiment
+    Travail collaboratif
+    
