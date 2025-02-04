@@ -24,7 +24,7 @@ jobs:
       #finally build your app with the latest command
       - name: Build and test with Maven
         # clear the cache and execute all the tests
-        run: mvn clean verify
+        run: mvn -B verify sonar:sonar -Dsonar.projectKey=${{secrets.PROJECT_KEY}} -Dsonar.organization=${{secrets.ORGANISATION_KEY}} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}  --file ./simple-api/pom.xml
         working-directory: TP1/simple-api-student-main
 
 
@@ -65,4 +65,5 @@ jobs:
           context: TP1/HttpServer
           tags: ${{secrets.DOCKER_USR}}/tp-devops-http-server:latest
           push: ${{ github.ref == 'refs/heads/main' }}
+
 
