@@ -27,3 +27,12 @@ jobs:
         # execute all the tests et vérifie la qualité du code avec sonar cube (connexion et vérification grâce aux infos dans les secrets [project_key, etc])
         run: mvn -B verify sonar:sonar -Dsonar.projectKey=${{secrets.PROJECT_KEY}} -Dsonar.organization=${{secrets.ORGANISATION_KEY}} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}  --file ./pom.xml
         working-directory: TP1/simple-api-student-main
+      
+      - name: fermer-pr
+        if: failure()
+        uses: actions/github-script@v6
+        run: gh pr close ${{ github.event.pull_request.number }} --comment "Ce workflow a échoué. PR fermée automatiquement."
+        with:
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
