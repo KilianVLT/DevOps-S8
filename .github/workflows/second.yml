@@ -1,15 +1,16 @@
 name: main branch workflow
 on:
   #to begin you want to launch this job in main and develop
-  push:
-    branches: 
-      - main
-  pull_request:
+  workflow_run:
+    workflows: ["CI devops 2025"]
+    types: [completed]
+    branches-ignore:
+      - "staging"
 
 jobs:
   # define job to build and publish docker image
   build-and-push-docker-image:
-    needs: test-backend
+    if: ${{ github.ref == 'refs/heads/main' }}
     # run only when code is compiling and tests are passing
     runs-on: ubuntu-22.04
 
