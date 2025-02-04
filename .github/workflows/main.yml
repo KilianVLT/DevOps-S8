@@ -23,6 +23,6 @@ jobs:
 
       #finally build your app with the latest command
       - name: Build and test with Maven
-        run:
-          cd ..\TP1\simple-api-student-main\ 
+        run: |
+          cd ../TP1/simple-api-student-main/ 
           mvn clean verify
