@@ -4,11 +4,11 @@ on:
   push:
     branches: 
       - main
+      - staging
   pull_request:
 
 jobs:
   test-backend:
-    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging' }} 
     runs-on: ubuntu-22.04
     steps:
       #checkout your github code using actions/checkout@v2.5.0
@@ -29,9 +29,17 @@ jobs:
         working-directory: TP1/simple-api-student-main
 
 
+name: main branch workflow
+on:
+  #to begin you want to launch this job in main and develop
+  push:
+    branches: 
+      - main
+  pull_request:
+
+jobs:
   # define job to build and publish docker image
   build-and-push-docker-image:
-    if: ${{ github.ref == 'refs/heads/main'}}
     needs: test-backend
     # run only when code is compiling and tests are passing
     runs-on: ubuntu-22.04
@@ -67,5 +75,3 @@ jobs:
           context: TP1/HttpServer
           tags: ${{secrets.DOCKER_USR}}/tp-devops-http-server:latest
           push: ${{ github.ref == 'refs/heads/main' }}
-
-
