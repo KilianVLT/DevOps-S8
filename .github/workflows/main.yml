@@ -30,7 +30,6 @@ jobs:
       
       - name: fermer-pr
         if: failure()
-        uses: actions/github-script@v6
         run: gh pr close ${{ github.event.pull_request.number }} --comment "Ce workflow a échoué. PR fermée automatiquement."
         with:
           env:
