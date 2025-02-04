@@ -1,12 +1,11 @@
 name: main branch workflow
 on:
   #to begin you want to launch this job in main and develop
-
   workflow_run:
-    workflow: ["CI devops 2025"]
-    types:
-      - completed
-  pull_request:
+    workflows: ["CI devops 2025"]
+    types: [completed]
+    branches-ignore:
+      - "staging"
 
 jobs:
   # define job to build and publish docker image
