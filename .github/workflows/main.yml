@@ -9,7 +9,6 @@ on:
 
 jobs:
   test-backend:
-    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging' }}
     runs-on: ubuntu-22.04
     steps:
       #checkout your github code using actions/checkout@v2.5.0
