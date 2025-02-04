@@ -45,17 +45,17 @@ jobs:
           # relative path to the place where source code with Dockerfile is located
           context: ./simple-api
           # Note: tags has to be all lower-case
-          tags:  ${{secrets.DOCKER_USR}}/tp-devops-simple-api:latest
+          tags:  ${{secrets.DOCKER_USR}}/simple-api-1:latest
 
       - name: Build image and push database
         uses: docker/build-push-action@v4
         with: 
           context: ./postgres
-          tags: ${{secrets.DOCKER_USR}}/tp-devops-postgres:latest
+          tags: ${{secrets.DOCKER_USR}}/db-1:latest
 
       - name: Build image and push httpd
         uses: docker/build-push-action@v4
         with: 
           context: ./http-server
-          tags: ${{secrets.DOCKER_USR}}/tp-devops-http-server:latest
+          tags: ${{secrets.DOCKER_USR}}/front-1:latest
 
