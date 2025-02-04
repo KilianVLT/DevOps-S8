@@ -1,0 +1,46 @@
+name: main branch workflow
+on:
+  #to begin you want to launch this job in main and develop
+  push:
+    branches: 
+      - main
+  pull_request:
+
+jobs:
+  # define job to build and publish docker image
+  build-and-push-docker-image:
+    needs: test-backend
+    # run only when code is compiling and tests are passing
+    runs-on: ubuntu-22.04
+
+    # steps to perform in job
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to DockerHub
+        run: docker login -u ${{secrets.DOCKER_USR}} -p ${{secrets.DOCKER_TOKEN}}
+
+      - name: Build image and push backend
+        uses: docker/build-push-action@v4
+        with:
+          # relative path to the place where source code with Dockerfile is located
+          context: TP1/simple-api-student-main
+          # Note: tags has to be all lower-case
+          tags:  ${{secrets.DOCKER_USR}}/tp-devops-api:latest
+          # build on feature branches, push only on main branch
+          push: ${{ github.ref == 'refs/heads/main' }}
+
+      - name: Build image and push database
+        uses: docker/build-push-action@v4
+        with: 
+          context: TP1/Database
+          tags: ${{secrets.DOCKER_USR}}/tp-devops-postgres:latest
+          push: ${{ github.ref == 'refs/heads/main' }}
+
+      - name: Build image and push httpd
+        uses: docker/build-push-action@v4
+        with: 
+          context: TP1/HttpServer
+          tags: ${{secrets.DOCKER_USR}}/tp-devops-http-server:latest
+          push: ${{ github.ref == 'refs/heads/main' }}
