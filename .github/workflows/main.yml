@@ -46,16 +46,23 @@ jobs:
           context: TP1/simple-api-student-main
           # Note: tags has to be all lower-case
           tags:  ${{secrets.DOCKER_USR}}/tp-devops-api:latest
+          # build on feature branches, push only on main branch
+          push: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Build image and push database
         uses: docker/build-push-action@v4
         with: 
           context: TP1/Database
           tags: ${{secrets.DOCKER_USR}}/tp-devops-postgres:latest
+          push: ${{ github.ref == 'refs/heads/main' }}
 
       - name: Build image and push httpd
         uses: docker/build-push-action@v4
         with: 
           context: TP1/HttpServer
           tags: ${{secrets.DOCKER_USR}}/tp-devops-http-server:latest
+          push: ${{ github.ref == 'refs/heads/main' }}
+
+      - name: Login to DockerHub
+        run: docker login -u ${{ secrets.DOCKER_USR }} -p ${{ secrets.DOCKER_PWD }}
 
