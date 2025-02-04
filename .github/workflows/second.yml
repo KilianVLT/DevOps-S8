@@ -3,7 +3,7 @@ on:
   #to begin you want to launch this job in main and develop
 
   workflow_run:
-    workflow: [CI devops 2025]
+    workflow: ["CI devops 2025"]
     types:
       - completed
   pull_request:
