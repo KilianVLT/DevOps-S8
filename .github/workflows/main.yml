@@ -39,6 +39,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Login to DockerHub
+        run: docker login -u ${{secrets.DOCKER_USR}} -p ${{secrets.DOCKER_TOKEN}}
+
       - name: Build image and push backend
         uses: docker/build-push-action@v4
         with:
@@ -62,7 +65,4 @@ jobs:
           context: TP1/HttpServer
           tags: ${{secrets.DOCKER_USR}}/tp-devops-http-server:latest
           push: ${{ github.ref == 'refs/heads/main' }}
-
-      - name: Login to DockerHub
-        run: docker login -u ${{secrets.DOCKER_USR}} -p ${{secrets.DOCKER_TOKEN}}
 
