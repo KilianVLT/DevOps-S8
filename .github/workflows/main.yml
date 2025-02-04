@@ -4,6 +4,7 @@ on:
   push:
     branches: 
       - main
+      - staging
   pull_request:
 
 jobs:
@@ -27,45 +28,3 @@ jobs:
         # execute all the tests et vérifie la qualité du code avec sonar cube (connexion et vérification grâce aux infos dans les secrets [project_key, etc])
         run: mvn -B verify sonar:sonar -Dsonar.projectKey=${{secrets.PROJECT_KEY}} -Dsonar.organization=${{secrets.ORGANISATION_KEY}} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}  --file ./pom.xml
         working-directory: TP1/simple-api-student-main
-
-
-  # define job to build and publish docker image
-  build-and-push-docker-image:
-    if: ${{ github.ref == 'refs/heads/main'}}
-    needs: test-backend
-    # run only when code is compiling and tests are passing
-    runs-on: ubuntu-22.04
-
-    # steps to perform in job
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Login to DockerHub
-        run: docker login -u ${{secrets.DOCKER_USR}} -p ${{secrets.DOCKER_TOKEN}}
-
-      - name: Build image and push backend
-        uses: docker/build-push-action@v4
-        with:
-          # relative path to the place where source code with Dockerfile is located
-          context: TP1/simple-api-student-main
-          # Note: tags has to be all lower-case
-          tags:  ${{secrets.DOCKER_USR}}/tp-devops-api:latest
-          # build on feature branches, push only on main branch
-          push: ${{ github.ref == 'refs/heads/main' }}
-
-      - name: Build image and push database
-        uses: docker/build-push-action@v4
-        with: 
-          context: TP1/Database
-          tags: ${{secrets.DOCKER_USR}}/tp-devops-postgres:latest
-          push: ${{ github.ref == 'refs/heads/main' }}
-
-      - name: Build image and push httpd
-        uses: docker/build-push-action@v4
-        with: 
-          context: TP1/HttpServer
-          tags: ${{secrets.DOCKER_USR}}/tp-devops-http-server:latest
-          push: ${{ github.ref == 'refs/heads/main' }}
-
-
