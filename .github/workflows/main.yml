@@ -8,6 +8,7 @@ on:
 
 jobs:
   test-backend:
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging' }}
     runs-on: ubuntu-22.04
     steps:
       #checkout your github code using actions/checkout@v2.5.0
@@ -23,13 +24,14 @@ jobs:
 
       #finally build your app with the latest command
       - name: Build and test with Maven
-        # clear the cache and execute all the tests
+        # execute all the tests et vérifie la qualité du code avec sonar cube (connexion et vérification grâce aux infos dans les secrets [project_key, etc])
         run: mvn -B verify sonar:sonar -Dsonar.projectKey=${{secrets.PROJECT_KEY}} -Dsonar.organization=${{secrets.ORGANISATION_KEY}} -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}  --file ./pom.xml
         working-directory: TP1/simple-api-student-main
 
 
   # define job to build and publish docker image
   build-and-push-docker-image:
+    if: ${{ github.ref == 'refs/heads/main'}}
     needs: test-backend
     # run only when code is compiling and tests are passing
     runs-on: ubuntu-22.04
