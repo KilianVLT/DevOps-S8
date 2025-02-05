@@ -7,7 +7,7 @@ services:
             - back-network
             - front-network
         env_file: "/simple-api-student-main/.env"
-        # Dépendant du container  
+        # Dépendant du container        
         depends_on: 
             - db
 
