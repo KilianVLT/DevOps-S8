@@ -20,7 +20,7 @@ services:
     front:
         build: ./front/devops-front-main
         ports:
-            - "8000:80"
+            - "80:8000"
         networks:
             - front-network
 
