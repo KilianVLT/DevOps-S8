@@ -16,8 +16,15 @@ services:
         env_file: "/Database/.env"
         networks:
             - back-network
-
+    
     front:
+        build: ./front/devops-front-main
+        ports:
+            - "8000:8000"
+        networks:
+            - front-network
+
+    httpd:
         build: ./HttpServer
         # Exposé sur le port
         ports: 
@@ -26,7 +33,8 @@ services:
             - front-network
         depends_on: 
             - simple-api
-
+            - front
+    
 # Network existants
 networks:
     front-network:
