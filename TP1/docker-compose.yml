@@ -28,7 +28,7 @@ services:
         build: ./HttpServer
         # Exposé sur le port
         ports: 
-            - "8080:8080"
+            - "8080:80"
         networks: 
             - front-network
         depends_on: 
