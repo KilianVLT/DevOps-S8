@@ -32,6 +32,13 @@ jobs:
           # build on feature branches, push only on main branch
           push: ${{ github.ref == 'refs/heads/main' }}
 
+      - name: Build image and push front
+        uses: docker/build-push-action@v4
+        with:
+          context: TP1/front/devops-front-main
+          tags: ${{secrets.DOCKER_USR}}/tp-devops-front:latest
+          push: ${{ github.ref == 'refs/heads/main' }}
+
       - name: Build image and push database
         uses: docker/build-push-action@v4
         with: 
