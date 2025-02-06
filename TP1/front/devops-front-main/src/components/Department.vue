@@ -68,7 +68,7 @@ export default {
   },
   methods: {
     async addStudent() {
-      await fetch(`http://${process.env.VUE_APP_API_URL}/students/`, {
+      await fetch(`http://${process.env.VUE_APP_API_URL}/students`, {
         method: "POST",
         headers: {
           Accept: "application/json",
